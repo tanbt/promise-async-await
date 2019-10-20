@@ -311,9 +311,9 @@ if (scr1) {
   ;
 }
 
-const scr2 = document.querySelector('.event-loop-walkthrough-2');
-if (scr2) {
-  new EventLoopAnimation(document.querySelector('.event-loop-walkthrough-2'))
+const scr4 = document.querySelector('.event-loop-walkthrough-4');
+if (scr4) {
+  new EventLoopAnimation(scr4)
     .state().moveToLine(1).pushTask(true).pushStack('script').showCodeBar()
     .state().pushLog()
     .state().moveToLine(3)
