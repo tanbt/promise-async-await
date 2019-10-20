@@ -6,7 +6,7 @@
   -webkit-flex-flow: column;
   flex-flow: column;
   max-height: 90vh;
-  height: 493px;
+  min-height: 500px;
   position: relative;
   margin: 0 -20px;
 }
