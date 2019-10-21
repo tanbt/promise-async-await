@@ -351,6 +351,46 @@ new EventLoopAnimation(scr2)
     ;
 }
 
+const scr3 = document.querySelector('.event-loop-walkthrough-3');
+if (scr3) {
+new EventLoopAnimation(scr3)
+    .state().moveToLine(0).pushTask(true).pushStack('main script').showCodeBar()
+    .state().moveToLine(1).pushStack('console.log')
+    .state().pushLog()
+    .state().popStack()
+    .state().moveToLine(3).pushStack('Promise constructor')
+    .state().moveToLine(4).pushStack('setTimeout').commentary("Promise executor is processed automatically")
+    .state().hideCommentary().moveToLine(6)
+    .state().commentary("Web API timer holds setTimeout callback for 1s")
+    .state().hideCommentary().popStack()
+    .state().popStack()
+
+    .state().moveToLine(7).commentary("Register `then` callback for Promise object")
+    .state().hideCommentary()
+
+    .state().moveToLine(11).pushStack('console.log')
+    .state().pushLog()
+    .state().hideCodeBar().popStack()
+    .state().popStack().commentary("Main task is done. The browser may update rendering.")
+    .state().shiftTask().hideCommentary()
+
+
+    .state().pushTask(true).commentary("Web API timer is done. Push setTimeout callback to task queue.")
+    .state().hideCommentary().pushStack("setTimeout callback")
+    .state().moveToLine(5).showCodeBar().pushMicrotask().commentary("Fulfill the promise, put its `then` callback to microtask queue")
+    .state().hideCodeBar().hideCommentary().popStack()
+    .state().shiftTask()
+    .state().activateMicrotask()
+    .state().pushStack("Promise then").moveToLine(8).showCodeBar()
+    .state().pushStack('console.log')
+    .state().pushLog()
+    .state().hideCodeBar().popStack()
+    .state().popStack()
+    .state().shiftMicrotask()
+    .state().commentary('fin')
+    ;
+}
+
 const scr4 = document.querySelector('.event-loop-walkthrough-4');
 if (scr4) {
   new EventLoopAnimation(scr4)
