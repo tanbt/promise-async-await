@@ -283,6 +283,7 @@ document.body.style.zoom="150%";
   window.EventLoopAnimation = EventLoopAnimation;
 }());
 
+
 const scr1 = document.querySelector('.event-loop-walkthrough-1');
 if (scr1) {
   new EventLoopAnimation(scr1)
@@ -299,16 +300,55 @@ if (scr1) {
   .state().pushLog()
   .state().popStack()
   .state().popStack().commentary("Main task is done. Browser may do something else.").hideCodeBar()
-  .state().shiftTask().pushStack('other task')
-  .state().hideCommentary()
-  .state().popStack().activateTask()
-  .state().shiftTask().moveToLine(4).pushStack('setTimeout callback').showCodeBar()
+  .state().pushStack('other task')
+  .state().popStack().hideCommentary()
+  .state().shiftTask().activateTask()
+  .state().moveToLine(4).pushStack('setTimeout callback').showCodeBar()
   .state().pushStack('console.log')
   .state().pushLog()
   .state().popStack()
   .state().hideCodeBar().popStack()
+  .state().shiftTask()
   .state().commentary('fin')
   ;
+}
+
+const scr2 = document.querySelector('.event-loop-walkthrough-2');
+if (scr2) {
+new EventLoopAnimation(scr2)
+    .state().moveToLine(0).pushTask(true).pushStack('main script').showCodeBar()
+    .state().moveToLine(1).pushStack('console.log')
+    .state().pushLog()
+    .state().popStack()
+    .state().moveToLine(3).pushStack('setTimeout')
+    .state().commentary("setTimeout callbacks are queued as tasks")
+    .state().hideCommentary().pushTask()
+    .state().popStack()
+    .state().moveToLine(7).pushStack("Promise executor").commentary("Promise executor is processed automatically")
+    .state().hideCommentary().moveToLine(8)
+    .state().commentary("Promise callbacks are queued as microtasks")
+    .state().hideCommentary().pushMicrotask()
+    .state().popStack()
+
+    .state().moveToLine(12)
+    .state().pushLog()
+    .state().hideCodeBar().popStack()
+    
+    .state().commentary("At the end of a task, we process microtasks")
+    .state().hideCommentary().activateMicrotask()
+    .state().showCodeBar().moveToLine(9).pushStack('Promise callback')
+    .state().pushLog()
+    .state().popStack()
+    .state().hideCodeBar().shiftMicrotask()
+    .state().commentary("Main task is done. The browser may update rendering")
+    .state().hideCommentary()
+    .state().shiftTask().activateTask()
+    .state().showCodeBar().moveToLine(4).pushStack('setTimeout callback')
+    .state().pushLog()
+    .state().hideCodeBar().popStack()
+    .state().shiftTask()
+    .state().commentary('fin')
+    ;
 }
 
 const scr4 = document.querySelector('.event-loop-walkthrough-4');
@@ -347,3 +387,4 @@ if (scr4) {
     .state().commentary('fin')
     ;
 }
+
